@@ -26,6 +26,8 @@ const LoginPopup = ({ setClosePopup }) => {
     if (res) {
       setError(res);
     } else {
+      alert("Login realizado com sucesso.")
+      setClosePopup = false;
       navigate("/");
     }
   };

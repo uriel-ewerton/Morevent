@@ -5,18 +5,25 @@ import { Estilera } from "./style";
 import { Botaes } from "./style";
 
 const Home = () => {
-  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  //const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [showSigninPopup, setShowSigninPopup] = useState(false);
 
-  function togglePop () {
-    setShowLoginPopup(!showLoginPopup);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true);
   };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  };
+
   return (
     <div>
       <Estilera>
         <h1>Home</h1>
-        <Botaes onClick={togglePop}>Login</Botaes>
-        {showLoginPopup ? <LoginPopup toggle={togglePop} /> : null}
+        <Botaes onClick={handleOpenPopup}>Login</Botaes>
+        {isPopupOpen && <LoginPopup setClosePopup={handleClosePopup} />}
 
         <Botaes onClick={() => setShowSigninPopup(true)}>Cadastro</Botaes>
         {showSigninPopup && <SignupPopup onClose={() => setShowSigninPopup(false)} />}

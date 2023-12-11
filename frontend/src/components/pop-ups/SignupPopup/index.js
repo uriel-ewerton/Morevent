@@ -30,6 +30,7 @@ const SignupPopup = () => {
       setError(res);
     } else {
       navigate("/");
+      alert("Cadastro realizado com sucesso.")
     }
   };
 
