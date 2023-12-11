@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import HeaderPopup from "../HeaderPopup";
 import Input from "../Input";
 import Button from "../Button";
 import * as S from "./styles.js";
-import useAuth from "../../../hooks/useAuth";
+import  useAuth  from "../../../hooks/useAuth.js";
 
 const LoginPopup = () => {
   const { signin } = useAuth();
@@ -15,21 +14,21 @@ const LoginPopup = () => {
   const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email | !senha) {
       setError("Preencha todos os campos");
       return;
     }
 
-    const res = signin(email, senha);
+    const res = await signin(email, senha);
 
     if (res) {
       setError(res);
-      return;
+    } else {
+      navigate("/");
     }
-
-    navigate("/");
   };
+
 
   return (
     <S.LoginPopup>
@@ -64,7 +63,7 @@ const LoginPopup = () => {
 
         <div className="NaoCadastrado">
           <p>
-            Não tem uma conta? <Link to="/home">Faça seu Cadastro.</Link>
+            Não tem uma conta? <Link to="/">Faça seu Cadastro.</Link>
           </p>
         </div>
       </S.LinksCadastro>

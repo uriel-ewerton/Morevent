@@ -1,73 +1,50 @@
-import { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from 'react';
+import axios from 'axios';
 
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const userToken = localStorage.getItem("user_token");
-    const usersStorage = localStorage.getItem("users_bd");
-
-    if (userToken && usersStorage) {
-      const hasUser = JSON.parse(usersStorage)?.filter(
-        (user) => user.email === JSON.parse(userToken).email
-      );
-
-      if (hasUser) setUser(hasUser[0]);
-    }
+    axios.get('http://localhost:3001/login', { withCredentials: true })
+      .then(response => {
+        if (response.data.loggedIn) {
+          setUser(response.data.user);
+        }
+      });
   }, []);
 
-  const signin = (email, password) => {
-    const usersStorage = JSON.parse(localStorage.getItem("users_bd"));
-
-    const hasUser = usersStorage?.filter((user) => user.email === email);
-
-    if (hasUser?.length) {
-      if (hasUser[0].email === email && hasUser[0].password === password) {
-        const token = Math.random().toString(36).substring(2);
-        localStorage.setItem("user_token", JSON.stringify({ email, token }));
-        setUser({ email, password });
-        return;
-      } else {
-        return "E-mail ou senha incorretos";
-      }
-    } else {
-      return "Usuário não cadastrado";
-    }
+  const signin = (username, password) => {
+    axios.post('http://localhost:3001/login', { username, password }, { withCredentials: true })
+      .then(response => {
+        if (response.data.length > 0) {
+          setUser(response.data[0]);
+        } else {
+          return "Senha ou usuário incorretos.";
+        }
+      })
+      .catch(() => {
+        return "O usuário não existe";
+      });
   };
 
-  const signup = (email, password) => {
-    const usersStorage = JSON.parse(localStorage.getItem("users_bd"));
-
-    const hasUser = usersStorage?.filter((user) => user.email === email);
-
-    if (hasUser?.length) {
-      return "Já tem uma conta com esse E-mail";
-    }
-
-    let newUser;
-
-    if (usersStorage) {
-      newUser = [...usersStorage, { email, password }];
-    } else {
-      newUser = [{ email, password }];
-    }
-
-    localStorage.setItem("users_bd", JSON.stringify(newUser));
-
-    return;
+  const signup = (username, email, password) => {
+    axios.post('http://localhost:3001/signup', { username, email, password }, { withCredentials: true })
+      .then(response => {
+        return;
+      });
   };
 
   const signout = () => {
-    setUser(null);
-    localStorage.removeItem("user_token");
+    axios.get('http://localhost:3001/logout', { withCredentials: true })
+      .then(() => {
+        setUser(null);
+      });
   };
 
   return (
-    <AuthContext.Provider
-      value={{ user, signed: !!user, signin, signup, signout }}
-    >
+    <AuthContext.Provider value={{ user, signed: !!user, signin, signup, signout }}>
       {children}
     </AuthContext.Provider>
   );

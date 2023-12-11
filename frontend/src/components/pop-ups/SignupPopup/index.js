@@ -1,37 +1,35 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import Input from "../Input";
-import Button from "../Button";
+//import Button from "../Button";
 import * as C from "./styles.js";
-import useAuth from "../../../hooks/useAuth";
+import  useAuth  from "../../../hooks/useAuth.js";
 
 const SignupPopup = () => {
-  const [email, setEmail] = useState("");
-  const [emailConf, setEmailConf] = useState("");
-  const [senha, setSenha] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
-
   const { signup } = useAuth();
 
-  const handleSignup = () => {
-    if (!email | !emailConf | !senha) {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [senhaConf, setSenhaConf] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSignup = async () => {
+    if (!username | !email | !senha | !senhaConf) {
       setError("Preencha todos os campos");
       return;
-    } else if (email !== emailConf) {
-      setError("Os e-mails não são iguais");
+    } else if (senha !== senhaConf) {
+      setError("As senhas não são iguais");
       return;
-    }
-
-    const res = signup(email, senha);
-
+    } 
+    
+    const res = await signup(username, email, senha);
     if (res) {
       setError(res);
-      return;
+    } else {
+      navigate("/");
     }
-
-    alert("Usuário cadatrado com sucesso!");
-    navigate("/");
   };
 
   return (
@@ -39,16 +37,16 @@ const SignupPopup = () => {
       <C.Label>SISTEMA DE LOGIN</C.Label>
       <C.Content>
         <Input
+          type="text"
+          placeholder="Digite seu nome"
+          value={username}
+          onChange={(e) => [setUsername(e.target.value), setError("")]}
+        />
+        <Input
           type="email"
           placeholder="Digite seu E-mail"
           value={email}
           onChange={(e) => [setEmail(e.target.value), setError("")]}
-        />
-        <Input
-          type="email"
-          placeholder="Confirme seu E-mail"
-          value={emailConf}
-          onChange={(e) => [setEmailConf(e.target.value), setError("")]}
         />
         <Input
           type="password"
@@ -56,8 +54,14 @@ const SignupPopup = () => {
           value={senha}
           onChange={(e) => [setSenha(e.target.value), setError("")]}
         />
+        <Input
+          type="password"
+          placeholder="Confirme sua senha"
+          value={senhaConf}
+          onChange={(e) => [setSenhaConf(e.target.value), setError("")]}
+        />
         <C.labelError>{error}</C.labelError>
-        <button Text="Inscrever-se" onClick={handleSignup} />
+        <button text="Inscrever-se" onClick={handleSignup} />
         <C.LabelSignin>
           Já tem uma conta?
           <C.Strong>

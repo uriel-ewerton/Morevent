@@ -11,7 +11,7 @@ const HomeLogado = () => {
     <div>
       Home Logado
       <div>
-        <button Text="Sair" onClick={() => [signout(), navigate("/")]}>
+        <button text="Sair" onClick={() => [signout(), navigate("/")]}>
         Sair
       </button>
       </div>
