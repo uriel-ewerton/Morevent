@@ -4,7 +4,7 @@ export const Entradas = styled.div`
   display: flex;
   flex-direction: column;
   outline: none;
-  padding: 16px 20px;
+  padding: 14px 20px;
   border-radius: 5px;
   color: #272d48;
 
@@ -18,5 +18,12 @@ export const Entradas = styled.div`
     font-size: 20px;
     color: #272d48;
     padding: 5px 16px;
+    
   }
+`;
+
+export const pError = styled.p`
+  font-size: 14px;
+  padding-top: 2px;
+  color: red;
 `;

@@ -4,9 +4,10 @@ import HeaderPopup from "../HeaderPopup";
 import Input from "../Input";
 import Button from "../Button";
 import * as S from "./styles.js";
-import  useAuth  from "../../../hooks/useAuth.js";
+import useAuth from "../../../hooks/useAuth.js";
+//import SignupPopup from "../SignupPopup";
 
-const LoginPopup = () => {
+const LoginPopup = ({ setClosePopup }) => {
   const { signin } = useAuth();
   const navigate = useNavigate();
 
@@ -29,7 +30,6 @@ const LoginPopup = () => {
     }
   };
 
-
   return (
     <S.LoginPopup>
       <HeaderPopup Titulo={"Realizar Login"} />
@@ -44,9 +44,9 @@ const LoginPopup = () => {
           TextoEntrada="Digite sua Senha"
           type="password"
           value={senha}
+          error={error}
           onChange={(e) => [setSenha(e.target.value), setError("")]}
         />
-        <S.labelError>{error}</S.labelError>
         <div className="EsqueceuSenha">
           <p>
             Esqueceu a senha? <a href="@">Clique aqui.</a>
@@ -55,7 +55,7 @@ const LoginPopup = () => {
       </S.EntradasEsqueceuSenha>
       <Button TextoBotao="Login" onClick={handleLogin} />
       <S.LinksCadastro>
-        <label>Cadastre-se com:</label>
+        <label>Conecte-se com:</label>
         <div className="Imagens">
           <img src="images/Facebook.png" alt="Facebook" />
           <img src="images/Google.png" alt="Google" />

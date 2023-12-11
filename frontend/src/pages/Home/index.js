@@ -8,12 +8,15 @@ const Home = () => {
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [showSigninPopup, setShowSigninPopup] = useState(false);
 
+  function togglePop () {
+    setShowLoginPopup(!showLoginPopup);
+  };
   return (
     <div>
       <Estilera>
         <h1>Home</h1>
-        <Botaes onClick={() => setShowLoginPopup(true)}>Login</Botaes>
-        {showLoginPopup && <LoginPopup onClose={() => setShowLoginPopup(false)} />}
+        <Botaes onClick={togglePop}>Login</Botaes>
+        {showLoginPopup ? <LoginPopup toggle={togglePop} /> : null}
 
         <Botaes onClick={() => setShowSigninPopup(true)}>Cadastro</Botaes>
         {showSigninPopup && <SignupPopup onClose={() => setShowSigninPopup(false)} />}

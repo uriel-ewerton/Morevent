@@ -15,8 +15,8 @@ export const AuthProvider = ({ children }) => {
       });
   }, []);
 
-  const signin = (username, password) => {
-    axios.post('http://localhost:3001/login', { username, password }, { withCredentials: true })
+  const signin = (email, password) => {
+    axios.post('http://localhost:3001/login', { email, password }, { withCredentials: true })
       .then(response => {
         if (response.data.length > 0) {
           setUser(response.data[0]);

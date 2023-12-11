@@ -11,7 +11,7 @@ export const LoginPopup = styled.div`
   min-width: 300px;
   max-width: 500px;
   height: 80%;
-  min-height: 300px;
+  min-height: 570px;
   max-height: 600px;
   border: 1.3vh solid #272d48;
   border-radius: 2%;
@@ -21,6 +21,8 @@ export const LoginPopup = styled.div`
 `;
 export const EntradasEsqueceuSenha = styled.div`
   width: 85%;
+  display: flex;
+  flex-direction: column;
 
   & .EsqueceuSenha {
     padding: 0px 20px;
@@ -66,7 +68,7 @@ export const LinksCadastro = styled.div`
     color: #272d48;
     font-size: 20px;
     padding-bottom: 10px;
-    
+
     text-decoration: none;
   }
 

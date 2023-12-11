@@ -76,12 +76,12 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  const username = req.body.username;
+  const email = req.body.email;
   const password = req.body.password;
 
   db.query(
-    "SELECT * FROM usuarios WHERE nome = ?;",
-    username,
+    "SELECT * FROM usuarios WHERE email = ?;",
+    email,
     (err, result) => {
       if (err) {
         res.send({ err: err });
@@ -94,11 +94,11 @@ app.post("/login", (req, res) => {
             console.log(req.session.user);
             res.send(result);
           } else {
-            res.send({ message: "Wrong username/password combination!" });
+            res.send({ message: "Email ou senha incorretos." });
           }
         });
       } else {
-        res.send({ message: "User doesn't exist" });
+        res.send({ message: "Usuário não cadastrado." });
       }
     }
   );
@@ -115,5 +115,5 @@ app.get('/logout', (req, res) => {
 });
 
 app.listen(3001, () => {
-  console.log("pfv funciona");
+  console.log("teste");
 });

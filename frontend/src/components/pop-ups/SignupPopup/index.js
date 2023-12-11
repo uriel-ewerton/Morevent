@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import Input from "../Input";
-//import Button from "../Button";
-import * as C from "./styles.js";
-import  useAuth  from "../../../hooks/useAuth.js";
+import Button from "../Button";
+import HeaderPopup from "../HeaderPopup";
+import * as S from "./styles.js";
+import useAuth from "../../../hooks/useAuth.js";
 
 const SignupPopup = () => {
   const navigate = useNavigate();
@@ -22,8 +23,8 @@ const SignupPopup = () => {
     } else if (senha !== senhaConf) {
       setError("As senhas não são iguais");
       return;
-    } 
-    
+    }
+
     const res = await signup(username, email, senha);
     if (res) {
       setError(res);
@@ -33,43 +34,50 @@ const SignupPopup = () => {
   };
 
   return (
-    <C.Container>
-      <C.Label>SISTEMA DE LOGIN</C.Label>
-      <C.Content>
+    <S.SignupPopup>
+      <HeaderPopup Titulo={"Realizar Cadastro"} />
+      <S.Entradas>
         <Input
           type="text"
-          placeholder="Digite seu nome"
+          TextoEntrada={"Digite seu nome"}
           value={username}
           onChange={(e) => [setUsername(e.target.value), setError("")]}
         />
         <Input
           type="email"
-          placeholder="Digite seu E-mail"
+          TextoEntrada={"Digite seu E-mail"}
           value={email}
           onChange={(e) => [setEmail(e.target.value), setError("")]}
         />
         <Input
           type="password"
-          placeholder="Digite sua Senha"
+          TextoEntrada={"Digite sua Senha"}
           value={senha}
           onChange={(e) => [setSenha(e.target.value), setError("")]}
         />
         <Input
           type="password"
-          placeholder="Confirme sua senha"
+          TextoEntrada={"Confirme sua senha"}
+          error={error}
           value={senhaConf}
           onChange={(e) => [setSenhaConf(e.target.value), setError("")]}
         />
-        <C.labelError>{error}</C.labelError>
-        <button text="Inscrever-se" onClick={handleSignup} />
-        <C.LabelSignin>
-          Já tem uma conta?
-          <C.Strong>
-            <Link to="/">&nbsp;Entre</Link>
-          </C.Strong>
-        </C.LabelSignin>
-      </C.Content>
-    </C.Container>
+      </S.Entradas>
+      <Button TextoBotao="Cadastrar" onClick={handleSignup} />
+      <S.LinksCadastro>
+        <label>Conecte-se com:</label>
+        <div className="Imagens">
+          <img src="images/Facebook.png" alt="Facebook" />
+          <img src="images/Google.png" alt="Google" />
+        </div>
+
+        <div className="NaoCadastrado">
+          <p>
+            Já possui cadastro? <Link to="/">Faça Login.</Link>
+          </p>
+        </div>
+      </S.LinksCadastro>
+    </S.SignupPopup>
   );
 };
 
